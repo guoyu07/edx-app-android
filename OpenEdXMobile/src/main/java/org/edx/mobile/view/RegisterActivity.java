@@ -299,7 +299,7 @@ public class RegisterActivity extends BaseFragmentActivity
                         return; // Return here to avoid falling back to the generic error handler.
                     }
                 }
-                RegisterActivity.this.showErrorDialog(null, ErrorUtils.getErrorMessage(ex, RegisterActivity.this));
+                RegisterActivity.this.showAlertDialog(null, ErrorUtils.getErrorMessage(ex, RegisterActivity.this));
             }
         };
         task.execute();
@@ -323,7 +323,7 @@ public class RegisterActivity extends BaseFragmentActivity
     }
 
     private void showErrorPopup(@NonNull final View errorView) {
-        showErrorDialog(getResources().getString(R.string.registration_error_title), getResources().getString(R.string.registration_error_message), new DialogInterface.OnClickListener() {
+        showAlertDialog(getResources().getString(R.string.registration_error_title), getResources().getString(R.string.registration_error_message), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 scrollToView((ScrollView) findViewById(R.id.scrollview), errorView);
@@ -357,8 +357,8 @@ public class RegisterActivity extends BaseFragmentActivity
 
     // make sure that on the login activity, all errors show up as a dialog as opposed to a flying snackbar
     @Override
-    public void showErrorDialog(String header, String message) {
-        super.showErrorDialog(header, message);
+    public void showAlertDialog(String header, String message) {
+        super.showAlertDialog(header, message);
     }
 
     @Override

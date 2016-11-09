@@ -85,7 +85,7 @@ public class LoginActivity extends PresenterActivity<LoginPresenter, LoginPresen
                 if (NetworkUtil.isConnected(LoginActivity.this)) {
                     showResetPasswordDialog();
                 } else {
-                    showErrorDialog(getString(R.string.reset_no_network_title), getString(R.string.network_not_connected));
+                    showAlertDialog(getString(R.string.reset_no_network_title), getString(R.string.network_not_connected));
                 }
             }
         });
@@ -172,7 +172,7 @@ public class LoginActivity extends PresenterActivity<LoginPresenter, LoginPresen
         socialLoginDelegate.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            showErrorDialog(getString(R.string.success_dialog_title_help), getString(R.string.success_dialog_message_help));
+            showAlertDialog(getString(R.string.success_dialog_title_help), getString(R.string.success_dialog_message_help));
         }
     }
 
@@ -182,7 +182,7 @@ public class LoginActivity extends PresenterActivity<LoginPresenter, LoginPresen
 
     public void callServerForLogin() {
         if (!NetworkUtil.isConnected(this)) {
-            showErrorDialog(getString(R.string.no_connectivity),
+            showAlertDialog(getString(R.string.no_connectivity),
                     getString(R.string.network_not_connected));
             return;
         }
@@ -191,11 +191,11 @@ public class LoginActivity extends PresenterActivity<LoginPresenter, LoginPresen
         final String passwordStr = activityLoginBinding.passwordEt.getText().toString().trim();
 
         if (activityLoginBinding.emailEt != null && emailStr.length() == 0) {
-            showErrorDialog(getString(R.string.login_error),
+            showAlertDialog(getString(R.string.login_error),
                     getString(R.string.error_enter_email));
             activityLoginBinding.emailEt.requestFocus();
         } else if (activityLoginBinding.passwordEt != null && passwordStr.length() == 0) {
-            showErrorDialog(getString(R.string.login_error),
+            showAlertDialog(getString(R.string.login_error),
                     getString(R.string.error_enter_password));
             activityLoginBinding.passwordEt.requestFocus();
         } else {
@@ -250,8 +250,8 @@ public class LoginActivity extends PresenterActivity<LoginPresenter, LoginPresen
 
     // make sure that on the login activity, all errors show up as a dialog as opposed to a flying snackbar
     @Override
-    public void showErrorDialog(String header, String message) {
-        super.showErrorDialog(header, message);
+    public void showAlertDialog(String header, String message) {
+        super.showAlertDialog(header, message);
     }
 
     @Override
@@ -294,12 +294,12 @@ public class LoginActivity extends PresenterActivity<LoginPresenter, LoginPresen
         if (ex != null && ex instanceof LoginException) {
             LoginErrorMessage error = (((LoginException) ex).getLoginErrorMessage());
 
-            showErrorDialog(
+            showAlertDialog(
                     error.getMessageLine1(),
                     (error.getMessageLine2() != null) ?
                             error.getMessageLine2() : getString(R.string.login_failed));
         } else {
-            showErrorDialog(getString(R.string.login_error), getString(R.string.error_unknown));
+            showAlertDialog(getString(R.string.login_error), getString(R.string.error_unknown));
             logger.error(ex);
         }
     }
